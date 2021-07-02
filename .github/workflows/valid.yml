@@ -13,4 +13,4 @@ jobs:
         with:
           build: npm run build
           start: npm run serve
-          config-file: false
+          config-file: true
