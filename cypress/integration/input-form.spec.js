@@ -15,4 +15,26 @@ describe('Input form', () => {
     .type(typedText)
     .should('have.value', typedText)    
   });
+
+  context("Form submission", () => {
+    it.only('Adds a new todo on submit', () => {
+      const itemText = 'Buy eggs'
+
+      cy.server()
+      cy.route('POST', '/api/todos', {
+        name: itemText,
+        id: 1,
+        isComplete: false
+      })
+      cy.get('.new-todo')
+      .type('Buy eggs')
+      .type('{enter}')
+      .should('have.value', '')
+      
+      cy.get('.todo-list li')
+      .should('have.length', 1)
+      .and('contain', itemText)
+    });
+    ;
+  });
 })
