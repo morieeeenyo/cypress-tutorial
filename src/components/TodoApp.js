@@ -32,6 +32,9 @@ export default class TodoApp extends Component {
         todos: this.state.todos.concat(data),
         currentTodo: ''
       }))
+      .catch((error) => {
+        this.setState({error: true})
+      })
   }
 
   render () {
@@ -40,6 +43,7 @@ export default class TodoApp extends Component {
         <div>
           <header className="header">
             <h1>todos</h1>
+            {this.state.error ? <span className="error">Oh no!</span>: null}
             <TodoForm 
             currentTodo={this.state.currentTodo} 
             handleNewTodoChange={this.handleNewTodoChange} 
