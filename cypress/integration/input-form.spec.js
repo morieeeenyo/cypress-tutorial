@@ -1,7 +1,7 @@
 describe('Input form', () => {
   beforeEach(() => {
     // ルートパスにアクセス
-    cy.visit('/')
+    cy.seedAndVisit([])
   })
 
   it('focuses input on load', () => {
@@ -10,7 +10,7 @@ describe('Input form', () => {
     .should('have.class', 'new-todo')
   });
 
-  it.only('accepts input', () => {
+  it('accepts input', () => {
     const typedText = 'Buy Milk'
 
     // フォームに入力したときのonChangeイベントの検証
@@ -25,7 +25,7 @@ describe('Input form', () => {
       cy.server()
     })
 
-    it.only('Adds a new todo on submit', () => {
+    it('Adds a new todo on submit', () => {
       const itemText = 'Buy eggs'
 
       // cy.serverでstubした通信処理を書き換えるときに使う。
@@ -47,7 +47,7 @@ describe('Input form', () => {
         .and('contain', itemText)
     });
 
-    it.only('Shows an error message on a failed submission', () => {
+    it('Shows an error message on a failed submission', () => {
       // routeを設定してエラーを吐かせる
       cy.route({
         method: 'POST', 
