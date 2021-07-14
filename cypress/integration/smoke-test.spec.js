@@ -87,8 +87,11 @@ describe('Smoke tests', () => {
         cy.get('@item')
         .should('have.class', 'completed')
       })
-
-      
+      .each($el => {
+        clieckAndAwait($el)
+        cy.get('@item')
+        .should('not.have.class', 'completed')
+      })
     });
   })
 })
