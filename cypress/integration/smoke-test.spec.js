@@ -1,5 +1,6 @@
 describe('Smoke tests', () => {
   beforeEach(() => {
+    // db.jsonに入っているtodoを取得して、全て削除する
     cy.request('GET', '/api/todos')
       .its('body')
       .each(todo => cy.request('DELETE', `api/todos/${todo.id}`))
@@ -15,6 +16,8 @@ describe('Smoke tests', () => {
 
       cy.visit('/')
       cy.server()
+
+      // ルートに対するエイリアスを定義
       cy.route('POST', '/api/todos')
         .as('create')
 
