@@ -37,6 +37,7 @@ describe('Smoke tests', () => {
 
   context('With active todos', () => {
     beforeEach(() => {
+      // fixtureからとってきたtodoをDBに保存
       cy.fixture('todos')
         .each(todo => {
         const newTodo = Cypress._.merge(todo, {isComplete: false})
@@ -46,6 +47,7 @@ describe('Smoke tests', () => {
     })
 
     it('Loads existing data from the DB', () => {
+      // 保存されたtodoが全て表示されていること
       cy.get('.todo-list li')
       .should('have.length', 4)
     });
@@ -55,6 +57,7 @@ describe('Smoke tests', () => {
       cy.route('DELETE', '/api/todos/*')
       .as('delete')
 
+      // 保存済みのtodoを削除
       cy.get('.todo-list li')
       .each($el => {
         cy.wrap($el)
@@ -67,6 +70,7 @@ describe('Smoke tests', () => {
     })
 
     it('Toggles todos', () => {
+      // 保存済みのtodoのtoggleをクリックしてcheckする
       const clieckAndAwait = ($el) => {
         cy.wrap($el)
           .as('item')
@@ -80,6 +84,7 @@ describe('Smoke tests', () => {
       cy.route('PUT', '/api/todos/*')
       .as('update')
 
+      // チェックされたtodoは完了済みになっている
       cy.get('.todo-list li')
       .each($el => {
         clieckAndAwait($el)
@@ -87,6 +92,7 @@ describe('Smoke tests', () => {
         cy.get('@item')
         .should('have.class', 'completed')
       })
+      // もう一回toggleをクリックすると未完了になる
       .each($el => {
         clieckAndAwait($el)
         cy.get('@item')
