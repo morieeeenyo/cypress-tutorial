@@ -44,6 +44,7 @@ describe('List items', () => {
       .invoke('show')
       .click()
 
+    // 削除後のリストアイテムの数と削除した要素が含まれていないことを検証
     cy.get('@list')
       .should('have.length', 3)
       .and('not.contain', 'Milk')
@@ -53,6 +54,7 @@ describe('List items', () => {
   it('Marks an incomplete item complete', () => {
     cy.fixture('todos')
       .then(todos => {
+        // リクエストヘッダにtodoの情報を乗っける
         const target = Cypress._.head(todos)
         cy.route(
           'PUT',
@@ -65,14 +67,17 @@ describe('List items', () => {
         .first()
         .as('first-todo')
 
+        // チェックボックスにチェックが入るかどうか検証
         cy.get('@first-todo')
         .find('.toggle')
         .click()
         .should('be.checked')
 
+        // チェックしたリストアイテムがチェック完了状態になっているか
         cy.get('@first-todo')
         .should('have.class', 'completed')
 
+        // 未完了のtodoの数を検証
         cy.get('.todo-count')
         .should('contain', 2)
     
